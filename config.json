@@ -1,0 +1,32 @@
+{
+    "Hostname": "hello",
+    "Update": {
+        "HTTPPassword": "passw0rd"
+    },
+    "Environment": [
+        "GOOS=linux",
+        "GOARCH=arm64"
+    ],
+    "Packages": [
+        "github.com/gokrazy/fbstatus",
+        "github.com/gokrazy/hello",
+        "github.com/gokrazy/serial-busybox",
+        "github.com/gokrazy/breakglass"
+    ],
+    "PackageConfig": {
+        "github.com/gokrazy/breakglass": {
+            "ExtraFilePaths": {
+                "/etc/breakglass.authorized_keys": "breakglass.authorized_keys"
+            },
+            "CommandLineFlags": [
+                "-authorized_keys=/etc/breakglass.authorized_keys"
+            ]
+        },
+        "github.com/gokrazy/gokrazy/cmd/randomd": {
+            "ExtraFileContents": {
+                "/etc/machine-id": "c410e322c5aa4aebb91c527a13e40f44\n"
+            }
+        }
+    },
+    "SerialConsole": "disabled"
+}

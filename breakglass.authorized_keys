@@ -1,0 +1,5 @@
+# This authorized_keys(5) file allows access from keys on nixtop
+
+# /home/feni/.ssh/id_ed25519.pub
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBQ6lR5h5ACkIoVkTt9drBqh38Fuxxt7EqTnrogzt1yH feni@fbk
+
