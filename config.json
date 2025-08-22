@@ -11,7 +11,8 @@
         "github.com/gokrazy/fbstatus",
         "github.com/gokrazy/hello",
         "github.com/gokrazy/serial-busybox",
-        "github.com/gokrazy/breakglass"
+        "github.com/gokrazy/breakglass",
+        "github.com/gokrazy/stat/cmd/gokr-stat"
     ],
     "PackageConfig": {
         "github.com/gokrazy/breakglass": {
@@ -28,5 +29,6 @@
             }
         }
     },
-    "SerialConsole": "disabled"
+    "SerialConsole": "disabled",
+    "InternalCompatibilityFlags": {}
 }
