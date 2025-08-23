@@ -1,0 +1,3 @@
+github.com/gokrazy/stat v0.1.0 h1:hzx1CrzCOv2H/5L690yJYB+OvHnta08AkbM9/deY09Y=
+github.com/gokrazy/stat v0.1.0/go.mod h1:Rj60LcYZ4iUghvvNm8KBpgfNTLL8RWKUs+vXHS2Jo4A=
+golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
