@@ -29,6 +29,11 @@
             "ExtraFileContents": {
                 "/etc/machine-id": "c410e322c5aa4aebb91c527a13e40f44\n"
             }
+        },
+        "example": {
+            "ExtraFilePaths": {
+                "/user/assets/foobar": "example/foobar"
+            }
         }
     },
     "SerialConsole": "disabled",
