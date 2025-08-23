@@ -13,7 +13,8 @@
         "github.com/gokrazy/serial-busybox",
         "github.com/gokrazy/breakglass",
         "github.com/gokrazy/stat/cmd/gokr-stat",
-        "github.com/gokrazy/mkfs"
+        "github.com/gokrazy/mkfs",
+        "example"
     ],
     "PackageConfig": {
         "github.com/gokrazy/breakglass": {
