@@ -1,8 +1,9 @@
 # open questions
 
 - how does /perm work?
-  - add static files into /perm during `gok run`/`gok update`
-  - create/delete/move files dynamically in code (should this be possible?) ... see perhaps mkfs
+  - [x] create/delete/move files dynamically in code (should this be possible?) ... see perhaps mkfs
+    - this is possible ... i just fucked up the paths (and `gokrazy/mkfs` might be needed in some cases)
+  - [ ] add static files into /perm during `gok run`/`gok update`
 
 - start services/programs upons start (e.g. `breakglass`)
 

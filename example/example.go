@@ -9,7 +9,9 @@ import (
 	"os"
 )
 
-const config = "/perm/my-example/config.json"
+const config = "/perm/foo/config.json"
+
+//                    ^ this directory has to exist, otherwise this will panic
 
 type Config struct {
 	FilesToCreate int `json:"files_to_create"`
@@ -44,7 +46,7 @@ func main() {
 	}
 
 	for i := 0; i < c.FilesToCreate; i++ {
-		if err := ioutil.WriteFile(fmt.Sprintf("/perm/my-example/%d.txt", i), []byte("gokrazy rocks"), 0600); err != nil {
+		if err := ioutil.WriteFile(fmt.Sprintf("/tmp/%d.txt", i), []byte("gokrazy rocks"), 0600); err != nil {
 			panic(err)
 		}
 	}
