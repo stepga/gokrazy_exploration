@@ -25,7 +25,7 @@ func setupGPIOInput(pinName string, levelChan chan pinLevelMessage) (gpio.PinIO,
 
 	// Configure Pin for input, configure pull as needed
 	// Edge mode is currently not supported
-	if err := p.In(gpio.PullNoChange, gpio.NoEdge); err != nil {
+	if err := p.In(gpio.PullUp, gpio.NoEdge); err != nil {
 		return nil, err
 	}
 
@@ -53,7 +53,7 @@ func main() {
 	// Channel for communicating Pin levels
 	levelChan := make(chan pinLevelMessage)
 
-	p, err := setupGPIOInput("GPIO4", levelChan)
+	p, err := setupGPIOInput("GPIO24", levelChan)
 	if err != nil {
 		log.Fatal(err)
 	}
