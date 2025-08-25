@@ -1,53 +1,34 @@
 package main
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"io/fs"
-	"io/ioutil"
-	"os"
+	"log"
+	"time"
+
+	"periph.io/x/conn/v3/gpio"
+	host "periph.io/x/host/v3"
+	"periph.io/x/host/v3/rpi"
 )
 
-const config = "/perm/foo/config.json"
-
-//                    ^ this directory has to exist, otherwise this will panic
-
-type Config struct {
-	FilesToCreate int `json:"files_to_create"`
+func doGPIO() error {
+	log.Printf("Loading periph.io drivers")
+	// Load periph.io drivers:
+	if _, err := host.Init(); err != nil {
+		return err
+	}
+	log.Printf("Toggling GPIO forever")
+	t := time.NewTicker(5 * time.Second)
+	for l := gpio.Low; ; l = !l {
+		log.Printf("setting GPIO pin number 18 (signal BCM24) to %v", l)
+		// Lookup a pin by its location on the board:
+		if err := rpi.P1_18.Out(l); err != nil {
+			return err
+		}
+		<-t.C
+	}
 }
 
 func main() {
-	_, err := os.Stat(config)
-	if err != nil {
-		fsErr := &fs.ErrNotExist
-		if !errors.As(err, fsErr) {
-			panic(err)
-		}
-
-		content, err := json.Marshal(&Config{FilesToCreate: 4})
-		if err != nil {
-			panic(err)
-		}
-
-		if err = ioutil.WriteFile(config, content, 0600); err != nil {
-			panic(err)
-		}
-	}
-
-	content, err := ioutil.ReadFile(config)
-	if err != nil {
-		panic(err)
-	}
-
-	var c Config
-	if err := json.Unmarshal(content, &c); err != nil {
-		panic(err)
-	}
-
-	for i := 0; i < c.FilesToCreate; i++ {
-		if err := ioutil.WriteFile(fmt.Sprintf("/tmp/%d.txt", i), []byte("gokrazy rocks"), 0600); err != nil {
-			panic(err)
-		}
+	if err := doGPIO(); err != nil {
+		log.Fatal(err)
 	}
 }
