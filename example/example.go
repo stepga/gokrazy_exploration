@@ -5,30 +5,72 @@ import (
 	"time"
 
 	"periph.io/x/conn/v3/gpio"
+	"periph.io/x/conn/v3/gpio/gpioreg"
 	host "periph.io/x/host/v3"
-	"periph.io/x/host/v3/rpi"
 )
 
-func doGPIO() error {
+type pinLevelMessage struct {
+	State gpio.Level
+	Reset gpio.Level
+}
+
+func setupGPIOInput(pinName string, levelChan chan pinLevelMessage) (gpio.PinIO, error) {
 	log.Printf("Loading periph.io drivers")
-	// Load periph.io drivers:
 	if _, err := host.Init(); err != nil {
-		return err
+		return nil, err
 	}
-	log.Printf("Toggling GPIO forever")
-	t := time.NewTicker(5 * time.Second)
-	for l := gpio.Low; ; l = !l {
-		log.Printf("setting GPIO pin number 18 (signal BCM24) to %v", l)
-		// Lookup a pin by its location on the board:
-		if err := rpi.P1_18.Out(l); err != nil {
-			return err
+
+	// Find Pin by name
+	p := gpioreg.ByName(pinName)
+
+	// Configure Pin for input, configure pull as needed
+	// Edge mode is currently not supported
+	if err := p.In(gpio.PullNoChange, gpio.NoEdge); err != nil {
+		return nil, err
+	}
+
+	// Setup Input signalling
+	go func() {
+		lastLevel := p.Read()
+		// How often to poll levels, 100-150ms is fairly responsive unless
+		// button presses are very fast.
+		// Shortening the polling interval <100ms significantly increases
+		// CPU load.
+		for range time.Tick(100 * time.Millisecond) {
+			currentLevel := p.Read()
+			log.Printf("level: %v", currentLevel)
+
+			if currentLevel != lastLevel {
+				levelChan <- pinLevelMessage{State: currentLevel, Reset: !currentLevel}
+				lastLevel = currentLevel
+			}
 		}
-		<-t.C
-	}
+	}()
+	return p, nil
 }
 
 func main() {
-	if err := doGPIO(); err != nil {
+	// Channel for communicating Pin levels
+	levelChan := make(chan pinLevelMessage)
+
+	p, err := setupGPIOInput("GPIO4", levelChan)
+	if err != nil {
 		log.Fatal(err)
+	}
+
+	// Main loop, act on level changes
+	for {
+		select {
+		case msg := <-levelChan:
+			if msg.State {
+				log.Printf("Pin %s is High, processing high state tasks", p.Name())
+				// Process high state tasks
+			} else if msg.Reset {
+				log.Printf("Pin %s is Low, resetting to wait for high state", p.Name())
+				// Process resetting logic, if any
+			}
+		default:
+			// Any other ongoing tasks
+		}
 	}
 }
