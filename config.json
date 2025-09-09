@@ -12,7 +12,7 @@
         "github.com/gokrazy/hello",
         "github.com/gokrazy/serial-busybox",
         "github.com/gokrazy/breakglass",
-        "github.com/gokrazy/stat/cmd/gokr-stat",
+        "github.com/gokrazy/stat/cmd/gokr-webstat",
         "github.com/gokrazy/mkfs",
         "github.com/stepga/godible"
     ],
