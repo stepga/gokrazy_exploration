@@ -14,7 +14,8 @@
         "github.com/gokrazy/breakglass",
         "github.com/gokrazy/stat/cmd/gokr-webstat",
         "github.com/gokrazy/mkfs",
-        "github.com/stepga/godible"
+        "github.com/stepga/godible",
+        "github.com/gokrazy/wifi"
     ],
     "PackageConfig": {
         "github.com/gokrazy/breakglass": {
@@ -24,6 +25,11 @@
             "CommandLineFlags": [
                 "-authorized_keys=/etc/breakglass.authorized_keys"
             ]
+        },
+        "github.com/gokrazy/wifi": {
+            "ExtraFilePaths": {
+                "/etc/wifi.json": "wifi.json"
+            }
         },
         "github.com/gokrazy/gokrazy/cmd/randomd": {
             "ExtraFileContents": {
