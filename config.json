@@ -39,7 +39,7 @@
     },
     "SerialConsole": "disabled",
     "BootloaderExtraLines": [
-        "dtparam=audio=on"
+        "dtparam=audio=on,spi=on"
     ],
     "InternalCompatibilityFlags": {}
 }
